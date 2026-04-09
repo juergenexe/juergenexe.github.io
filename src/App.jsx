@@ -359,40 +359,48 @@ const ProjectGraveyard = () => {
 };
 
 // --- 11. ARTIFACT GALLERY ---
-const ArtifactGallery = () => {
-  const artifacts = [
-    { src: "/image_30a3c5.png", title: "MDT-9100 Dashboard", desc: "React-basiertes Dispatch-System. State Management & Layouts." },
-    { src: "/image_3104df.png", title: "Live Error Logs", desc: "Vite Asset-Routing Fehler. Identifiziert und per absolutem Pfad-Mapping behoben." },
-    { src: "/image_310863.png", title: "File Structure", desc: "Verzeichnisstrukturierung für Audiosysteme im FiveM Umfeld." }
-  ];
+// --- MDT PREVIEW SECTION ---
+const MDTSection = ({ mode, setMode }) => (
+  <section id="mdt-preview" className="py-32 px-6 bg-[#03050a] border-t border-zinc-900 relative overflow-hidden">
+    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay pointer-events-none"></div>
+    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
-  return (
-    <section className="py-24 px-6 max-w-7xl mx-auto relative z-10 border-t border-zinc-900/50">
-      <div className="flex items-center gap-4 mb-12">
-        <Camera size={32} className="text-cyan-500" />
-        <div>
-          <h3 className="text-sm font-mono text-cyan-500 tracking-widest uppercase">// Proof of Work</h3>
-          <h2 className="text-4xl font-black text-zinc-100 tracking-tighter uppercase">Artifact Gallery.</h2>
-        </div>
+
+    <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
+      <span className="text-cyan-500 font-mono text-sm tracking-widest uppercase mb-4 block">// Engineering Showcase</span>
+      <h2 className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-500 mb-6 tracking-tighter uppercase">
+        MDT-9100 System
+      </h2>
+      <p className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed mb-10">
+        Entwicklung einer reaktiven Datenbank-Schnittstelle. Architektur-Design, API-Mocking und State-Management. Wähle zwischen der <strong>Legacy CLI</strong> oder der <strong>Modern React</strong> Lösung.
+      </p>
+
+
+      <div className="flex justify-center gap-4 mb-12">
+        <button onClick={() => setMode('retro')} className={`px-8 py-3 rounded-xl border text-sm uppercase tracking-widest transition-all ${mode === 'retro' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/50 font-bold shadow-[0_0_20px_rgba(6,182,212,0.2)]' : 'text-zinc-500 border-zinc-800 hover:border-zinc-600 hover:text-zinc-300'}`}>
+          Legacy Terminal
+        </button>
+        <button onClick={() => setMode('modern')} className={`px-8 py-3 rounded-xl border text-sm uppercase tracking-widest transition-all ${mode === 'modern' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/50 font-bold shadow-[0_0_20px_rgba(6,182,212,0.2)]' : 'text-zinc-500 border-zinc-800 hover:border-zinc-600 hover:text-zinc-300'}`}>
+          React Interface
+        </button>
       </div>
-      <p className="text-zinc-400 mb-10 max-w-2xl text-lg font-light">Echte Deployments, echte Fehler, echter Code. Worte sind geduldig, Logs lügen nicht.</p>
-      
-      <div className="grid md:grid-cols-3 gap-6">
-        {artifacts.map((art, i) => (
-          <div key={i} className="bg-[#050505] border border-zinc-800 rounded-3xl overflow-hidden hover:border-cyan-500/50 transition-colors group flex flex-col">
-            <div className="h-48 overflow-hidden bg-zinc-900 relative flex-shrink-0">
-              <img src={art.src} alt={art.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 grayscale group-hover:grayscale-0" />
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <h4 className="text-lg font-bold text-zinc-200 mb-2">{art.title}</h4>
-              <p className="text-sm text-zinc-500 leading-relaxed flex-1">{art.desc}</p>
-            </div>
+    </div>
+
+
+    <div className="relative mx-auto w-full max-w-[1100px] aspect-[16/10] bg-zinc-900 rounded-[2.5rem] p-3 md:p-5 border border-zinc-800 shadow-[0_0_100px_rgba(6,182,212,0.07)] z-10">
+      <div className="w-full h-full bg-black rounded-2xl overflow-hidden relative shadow-inner">
+        {mode === 'retro' ? (
+          <iframe src="/mdt/index.html" className="w-full h-full border-none" title="Retro MDT Demo" scrolling="no" />
+        ) : (
+          <div className="w-full h-full overflow-hidden">
+            <ModernApp /> 
           </div>
-        ))}
+        )}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
+
 
 // --- 12. IDENTITY PROTOCOL (Vault) ---
 const IdentityProtocol = () => (
