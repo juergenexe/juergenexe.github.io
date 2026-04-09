@@ -655,7 +655,7 @@ export default function App() {
              </div>
           </div>
 
-          <ArtifactGallery />
+          
           <ProjectGraveyard />
           <IdentityProtocol />
           <MiniFAQ />
