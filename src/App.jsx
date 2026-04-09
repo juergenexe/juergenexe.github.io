@@ -656,7 +656,7 @@ export default function App() {
              <div className="absolute bottom-0 left-[50%] translate-x-[-50%] w-[100%] h-[50%] bg-cyan-900/5 blur-[120px] rounded-full pointer-events-none" />
              <h2 className="text-4xl md:text-5xl font-black mb-8 text-zinc-100 tracking-tighter uppercase">Initialize Contact.</h2>
              <p className="text-zinc-500 mb-10 max-w-xl mx-auto font-mono text-sm">System is accepting new operations. End of archive.</p>
-             <a href="mailto:lyonerschmier@gmail.com" className="inline-block px-10 py-5 bg-zinc-100 text-black font-black text-lg uppercase tracking-widest rounded-full hover:bg-cyan-400 hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] cursor-none">
+             <a href="mailto:me@jbaltes.de" className="inline-block px-10 py-5 bg-zinc-100 text-black font-black text-lg uppercase tracking-widest rounded-full hover:bg-cyan-400 hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] cursor-none">
                Deploy Mail
              </a>
              <div className="mt-24 text-xs font-mono text-zinc-700 uppercase tracking-widest">
