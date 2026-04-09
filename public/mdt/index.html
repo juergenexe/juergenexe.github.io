@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MDT-9100</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MDT-9100 DEVICE SHELL
+     ═══════════════════════════════════════════════════════════ -->
+
+  <!-- ── Top Brand Bar ─────────────────────────────────────── -->
+  <div class="device-brand-bar">
+    <span class="brand-logo">JÜRGENROLA</span>
+    <div class="brand-indicators">
+      <span class="led led-pwr"  id="led-pwr"  title="POWER"></span>
+      <span class="led-label">PWR</span>
+      <span class="led led-conn" id="led-conn" title="CONNECTED"></span>
+      <span class="led-label">CONN</span>
+      <span class="led led-data" id="led-data" title="DATA"></span>
+      <span class="led-label">DATA</span>
+    </div>
+    <span class="brand-model">MDT-9100</span>
+  </div>
+
+  <!-- ── Top Section: Screen + F-Keys ─────────────────────── -->
+  <div class="device-top">
+
+    <!-- Screen housing / bezel -->
+    <div class="screen-housing">
+      <div class="screen-bezel">
+        <div id="screen-crt">
+
+          <!-- ── Screen Header ────────────────────────────── -->
+          <div class="screen-header">
+            <span id="hdr-sys">BLICK KDT-OS V2.09</span>
+            <span id="hdr-unit">UNIT: ██</span>
+            <span id="hdr-time">--:--:--</span>
+          </div>
+          <div class="screen-rule">══════════════════════════════════════════════════</div>
+
+          <!-- ── Views (only one active at a time) ─────────── -->
+
+          <!-- Terminal Output -->
+          <div id="view-terminal" class="screen-view active">
+            <div id="terminal-output"></div>
+          </div>
+
+          <!-- Citizen Profile -->
+          <div id="view-record" class="screen-view">
+            <div class="view-title">╔══ CITIZEN RECORD ══════════════════════════════╗</div>
+            <div id="rec-body">
+              <div class="rec-top">
+                <div class="rec-photo-box">
+                  <img id="rec-mugshot" src="" alt="" onerror="this.style.display='none'; document.getElementById('rec-silhouette').style.display='flex'">
+                  <div id="rec-silhouette" class="rec-silhouette">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="rec-fields">
+                  <div><span class="fl">NAME    :</span> <span id="rec-name"  class="fv bright"></span></div>
+                  <div><span class="fl">CID     :</span> <span id="rec-cid"   class="fv"></span></div>
+                  <div><span class="fl">D.O.B.  :</span> <span id="rec-dob"   class="fv"></span></div>
+                  <div><span class="fl">SEX     :</span> <span id="rec-sex"   class="fv"></span></div>
+                  <div><span class="fl">PHONE   :</span> <span id="rec-phone" class="fv"></span></div>
+                  <div><span class="fl">WARRANTS:</span> <span id="rec-warrant-count" class="fv warn"></span></div>
+                  <div><span class="fl">FLAGS   :</span> <span id="rec-flags" class="fv warn"></span></div>
+                </div>
+              </div>
+              <div class="screen-rule">────────────────────────────────────────────────</div>
+              <div id="rec-notes-row"><span class="fl">NOTES   :</span> <span id="rec-notes" class="fv dim"></span></div>
+              <div class="screen-rule">────────────────────────────────────────────────</div>
+              <div class="rec-section-title">CRIMINAL HISTORY</div>
+              <div id="rec-reports"   class="rec-scroll"></div>
+              <div class="screen-rule">────────────────────────────────────────────────</div>
+              <div class="rec-section-title">ACTIVE WARRANTS</div>
+              <div id="rec-warrants"  class="rec-scroll"></div>
+              <div class="screen-rule">────────────────────────────────────────────────</div>
+              <div class="rec-section-title">CITATIONS</div>
+              <div id="rec-citations" class="rec-scroll"></div>
+              <div class="screen-rule">────────────────────────────────────────────────</div>
+              <div class="rec-actions">
+                <button class="s-btn" id="btn-rec-mugshot">[ SET MUGSHOT ]</button>
+                <button class="s-btn" id="btn-rec-close">[ CLOSE RECORD ]</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warrants List -->
+          <div id="view-warrants" class="screen-view">
+            <div class="view-title">╔══ ACTIVE WARRANTS ═════════════════════════════╗</div>
+            <div id="warrants-list" class="list-scroll"></div>
+            <div class="list-footer">
+              <span class="dim">ISSUE: /WARRANT NEW [CID] [CHARGES]  |  CLEAR: /WARRANT CLEAR [ID]</span>
+            </div>
+          </div>
+
+          <!-- BOLOs List -->
+          <div id="view-bolos" class="screen-view">
+            <div class="view-title">╔══ ACTIVE BOLOs ════════════════════════════════╗</div>
+            <div id="bolos-list" class="list-scroll"></div>
+            <div class="list-footer">
+              <span class="dim">ISSUE: /BOLO [DESCRIPTION]  |  CLEAR: /BOLO CLEAR [ID]</span>
+            </div>
+          </div>
+
+          <!-- Reports List -->
+          <div id="view-reports" class="screen-view">
+            <div class="view-title" id="reports-view-title">╔══ INCIDENT REPORTS ════════════════════════════╗</div>
+            <div id="reports-list" class="list-scroll"></div>
+            <div class="list-footer">
+              <span class="dim">VIEW REPORT: /REPORT VIEW [ID]  |  NEW: /REPORT NEW</span>
+            </div>
+          </div>
+
+          <!-- Single Report View -->
+          <div id="view-single-report" class="screen-view">
+            <div class="view-title">╔══ INCIDENT REPORT ═════════════════════════════╗</div>
+            <div id="single-report-body" class="rec-scroll"></div>
+            <div class="rec-actions">
+              <button class="s-btn" id="btn-report-close">[ CLOSE ]</button>
+            </div>
+          </div>
+
+          <!-- Officers List -->
+          <div id="view-officers" class="screen-view">
+            <div class="view-title">╔══ ON-DUTY ROSTER ══════════════════════════════╗</div>
+            <div id="officers-list" class="list-scroll"></div>
+            <div class="list-footer">
+              <span class="dim">MSG: /MSG [UNIT] [MESSAGE]  |  STATUS: /STATUS [1-6]</span>
+            </div>
+          </div>
+
+          <!-- Report Form -->
+          <div id="view-report-form" class="screen-view">
+            <div class="view-title">╔══ INCIDENT REPORT ENTRY ═══════════════════════╗</div>
+            <div class="form-scroll">
+              <div class="form-row"><span class="form-label">TITLE    :</span><input type="text" id="rep-title"    class="s-input" autocomplete="off" spellcheck="false"></div>
+              <div class="form-row"><span class="form-label">SUSPECTS :</span><input type="text" id="rep-suspects" class="s-input" placeholder="CIDs comma-separated" autocomplete="off" spellcheck="false"></div>
+              <div class="form-row"><span class="form-label">PLATE(S) :</span><input type="text" id="rep-plates"   class="s-input" autocomplete="off" spellcheck="false"></div>
+              <div class="form-row"><span class="form-label">OFFICERS :</span><input type="text" id="rep-officers" class="s-input" placeholder="Names / badges" autocomplete="off" spellcheck="false"></div>
+              <div class="form-row">
+                <span class="form-label">CHARGES  :</span>
+                <input type="text" id="rep-charges" class="s-input" placeholder="Click to select from penal code" readonly>
+                <button class="s-btn s-btn-sm" id="btn-open-charges">[ SELECT ]</button>
+              </div>
+              <div class="form-row"><span class="form-label">EVIDENCE :</span><input type="text" id="rep-evidence" class="s-input" placeholder="URL to mugshot / evidence" autocomplete="off" spellcheck="false"></div>
+              <div class="form-row form-row-inline">
+                <span class="form-label">STATUS   :</span>
+                <select id="rep-status" class="s-select">
+                  <option value="OPEN">OPEN / PENDING</option>
+                  <option value="PROCESSED">PROCESSED &amp; CHARGED</option>
+                  <option value="CLOSED">CLOSED</option>
+                </select>
+                <label class="s-check"><input type="checkbox" id="rep-warrant"> ISSUE WARRANT</label>
+                <label class="s-check"><input type="checkbox" id="rep-bolo"> ISSUE BOLO</label>
+              </div>
+              <div class="form-row form-row-narrative">
+                <span class="form-label">NARRATIVE</span>
+                <textarea id="rep-narrative" class="s-textarea" spellcheck="false"></textarea>
+              </div>
+              <div class="form-actions">
+                <button class="s-btn" id="btn-submit-report">[ TRANSMIT REPORT ]</button>
+                <button class="s-btn s-btn-danger" id="btn-cancel-report">[ CANCEL ]</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dispatch Log -->
+          <div id="view-dispatch" class="screen-view">
+            <div class="view-title">╔══ DISPATCH COMMUNICATIONS LOG ═════════════════╗</div>
+            <div id="dispatch-list" class="list-scroll"></div>
+            <div class="list-footer">
+              <span class="dim">LIVE FEED ACTIVE  |  /DISPATCH CLEAR — WIPE LOG</span>
+            </div>
+          </div>
+
+          <!-- Personnel Roster -->
+          <div id="view-roster" class="screen-view">
+            <div class="view-title">╔══ PERSONNEL MANAGEMENT ═══════════════════════╗</div>
+            <div id="roster-list" class="list-scroll"></div>
+            <div id="roster-mgmt-panel" class="roster-mgmt-panel hidden">
+              <div class="screen-rule">────────────────────────────────────────────────</div>
+              <div class="form-row roster-hire-row">
+                <span class="form-label" style="min-width:54px">SVR ID :</span>
+                <input type="text" id="roster-sid"   class="s-input" style="max-width:52px" placeholder="###" autocomplete="off" spellcheck="false">
+                <span class="form-label" style="min-width:34px">JOB :</span>
+                <select id="roster-job" class="s-select" style="max-width:108px"></select>
+                <span class="form-label" style="min-width:52px">GRADE :</span>
+                <input type="text" id="roster-grade" class="s-input" style="max-width:30px" placeholder="0" autocomplete="off">
+                <button class="s-btn s-btn-sm" id="btn-roster-set">[ SET JOB ]</button>
+                <button class="s-btn s-btn-sm s-btn-danger" id="btn-roster-fire">[ DISMISS ]</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Charges Overlay ────────────────────────────── -->
+          <div id="charges-overlay" class="hidden">
+            <div class="charges-header">
+              <span>PENAL CODE DATABASE</span>
+              <span id="charge-totals" class="warn">0 MO | $0</span>
+              <button class="s-btn s-btn-sm" id="btn-close-charges">[ DONE ]</button>
+            </div>
+            <div id="charges-list" class="charges-scroll"></div>
+          </div>
+
+          <!-- ── Mugshot Modal ──────────────────────────────── -->
+          <div id="mugshot-overlay" class="hidden">
+            <div class="charges-header">
+              <span>SET MUGSHOT URL</span>
+            </div>
+            <div style="padding: 8px 4px;">
+              <div class="form-row"><span class="form-label">URL :</span><input type="text" id="mugshot-url-input"   class="s-input" placeholder="https://..." autocomplete="off"></div>
+              <div class="form-row"><span class="form-label">NOTES :</span><input type="text" id="mugshot-notes-input" class="s-input" placeholder="Officer notes about subject..." autocomplete="off" spellcheck="false"></div>
+              <div class="form-row"><span class="form-label">FLAGS :</span><input type="text" id="mugshot-flags-input" class="s-input" placeholder="e.g. ARMED, DANGEROUS, INFORMANT" autocomplete="off" spellcheck="false"></div>
+              <div class="form-actions">
+                <button class="s-btn" id="btn-save-mugshot">[ SAVE ]</button>
+                <button class="s-btn s-btn-danger" id="btn-cancel-mugshot">[ CANCEL ]</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Dispatch Alert Banner ─────────────────────── -->
+          <div id="dispatch-alert" class="dispatch-alert hidden">
+            <span class="da-badge" id="da-code">10-0</span>
+            <span class="da-msg"   id="da-msg">INCOMING DISPATCH</span>
+            <span class="da-loc dim" id="da-loc"></span>
+            <button class="da-close s-btn s-btn-sm" id="da-close">[ X ]</button>
+          </div>
+
+          <!-- ── Screen Divider + Input ─────────────────────── -->
+          <div class="screen-input-area">
+            <div class="screen-rule">══════════════════════════════════════════════════</div>
+            <div class="cmd-line">
+              <span class="cmd-prompt" id="cmd-prompt">C:\KDT&gt;</span>
+              <input type="text" id="cmdInput" class="cmd-input" autocomplete="off" spellcheck="false">
+              <span class="cmd-cursor" id="cmd-cursor">█</span>
+            </div>
+            <div class="cmd-footer" id="cmd-footer">F1-F3:SEARCH  F4-F5:LISTS  F6:REPORT  F7:OFFICERS  F8:STATUS  F9:MSG  F10:DISPATCH  F11:ROSTER  F12:EXIT</div>
+          </div>
+
+          <!-- ── CRT Effects ────────────────────────────────── -->
+          <div class="crt-scanlines"></div>
+          <div class="crt-vignette"></div>
+        </div><!-- end screen-crt -->
+      </div><!-- end screen-bezel -->
+
+      <!-- Screen corner screws -->
+      <div class="screw screw-tl"></div>
+      <div class="screw screw-tr"></div>
+      <div class="screw screw-bl"></div>
+      <div class="screw screw-br"></div>
+    </div><!-- end screen-housing -->
+
+    <!-- ── F-Key Panel ────────────────────────────────────── -->
+    <div class="fkey-panel">
+      <div class="fkey-panel-label">FUNCTION KEYS</div>
+
+      <button class="fkey" data-cmd="/SEARCH " data-fkey="F1">
+        <span class="fk-num">F1</span><span class="fk-top">PERSON</span><span class="fk-bot">SEARCH</span>
+      </button>
+      <button class="fkey" data-cmd="/VIEW " data-fkey="F2">
+        <span class="fk-num">F2</span><span class="fk-top">RECORD</span><span class="fk-bot">VIEW</span>
+      </button>
+      <button class="fkey" data-cmd="/PLATE " data-fkey="F3">
+        <span class="fk-num">F3</span><span class="fk-top">DMV</span><span class="fk-bot">PLATE</span>
+      </button>
+
+      <button class="fkey" data-cmd="/WARRANT LIST" data-fkey="F4" data-instant="1">
+        <span class="fk-num">F4</span><span class="fk-top">ACTIVE</span><span class="fk-bot">WARRANTS</span>
+      </button>
+      <button class="fkey" data-cmd="/BOLO LIST" data-fkey="F5" data-instant="1">
+        <span class="fk-num">F5</span><span class="fk-top">ACTIVE</span><span class="fk-bot">BOLOS</span>
+      </button>
+      <button class="fkey" data-cmd="/REPORT NEW" data-fkey="F6" data-instant="1">
+        <span class="fk-num">F6</span><span class="fk-top">NEW</span><span class="fk-bot">REPORT</span>
+      </button>
+
+      <button class="fkey" data-cmd="/OFFICERS" data-fkey="F7" data-instant="1">
+        <span class="fk-num">F7</span><span class="fk-top">ON-DUTY</span><span class="fk-bot">OFFICERS</span>
+      </button>
+      <button class="fkey" data-cmd="/STATUS " data-fkey="F8">
+        <span class="fk-num">F8</span><span class="fk-top">MY</span><span class="fk-bot">STATUS</span>
+      </button>
+      <button class="fkey" data-cmd="/MSG " data-fkey="F9">
+        <span class="fk-num">F9</span><span class="fk-top">UNIT</span><span class="fk-bot">MSG</span>
+      </button>
+
+      <button class="fkey" data-cmd="/DISPATCH" data-fkey="F10" data-instant="1">
+        <span class="fk-num">F10</span><span class="fk-top">DISPATCH</span><span class="fk-bot">LOG</span>
+      </button>
+      <button class="fkey" data-cmd="/ROSTER" data-fkey="F11" data-instant="1">
+        <span class="fk-num">F11</span><span class="fk-top">PERSONNEL</span><span class="fk-bot">ROSTER</span>
+      </button>
+      <button class="fkey fkey-exit" data-cmd="EXIT" data-fkey="F12" data-instant="1">
+        <span class="fk-num">F12</span><span class="fk-top">CLOSE</span><span class="fk-bot">EXIT</span>
+      </button>
+
+      <!-- Status display on panel -->
+      <div class="fkey-status-box">
+        <div class="fks-label">OFFICER STATUS</div>
+        <div id="fk-status-text" class="fks-value">AVAILABLE</div>
+      </div>
+    </div>
+
+    <!-- Right-side adjustment knobs -->
+    <div class="knob-column">
+      <div class="knob" title="BRIGHTNESS"></div>
+      <div class="knob" title="CONTRAST"></div>
+    </div>
+
+  </div><!-- end device-top -->
+
+  <!-- ── Decorative Keyboard (clickable) ───────────────────── -->
+  <div class="device-keyboard">
+    <div class="kb-row">
+      <button class="kb-key kb-wide"  type="button" data-action="esc">ESC</button>
+      <button class="kb-key"          type="button" data-char="1">1</button>
+      <button class="kb-key"          type="button" data-char="2">2</button>
+      <button class="kb-key"          type="button" data-char="3">3</button>
+      <button class="kb-key"          type="button" data-char="4">4</button>
+      <button class="kb-key"          type="button" data-char="5">5</button>
+      <button class="kb-key"          type="button" data-char="6">6</button>
+      <button class="kb-key"          type="button" data-char="7">7</button>
+      <button class="kb-key"          type="button" data-char="8">8</button>
+      <button class="kb-key"          type="button" data-char="9">9</button>
+      <button class="kb-key"          type="button" data-char="0">0</button>
+      <button class="kb-key"          type="button" data-char="-">-</button>
+      <button class="kb-key"          type="button" data-char="=">=</button>
+      <button class="kb-key kb-wide2" type="button" data-action="bksp">BKSP</button>
+      <button class="kb-key kb-mod"   type="button">INS</button>
+      <button class="kb-key"          type="button" data-action="bksp">DEL</button>
+      <button class="kb-key kb-special kb-mod" type="button">MAIL<br>APP</button>
+    </div>
+    <div class="kb-row">
+      <button class="kb-key kb-wide kb-mod" type="button">TAB</button>
+      <button class="kb-key" type="button" data-char="Q">Q</button>
+      <button class="kb-key" type="button" data-char="W">W</button>
+      <button class="kb-key" type="button" data-char="E">E</button>
+      <button class="kb-key" type="button" data-char="R">R</button>
+      <button class="kb-key" type="button" data-char="T">T</button>
+      <button class="kb-key" type="button" data-char="Y">Y</button>
+      <button class="kb-key" type="button" data-char="U">U</button>
+      <button class="kb-key" type="button" data-char="I">I</button>
+      <button class="kb-key" type="button" data-char="O">O</button>
+      <button class="kb-key" type="button" data-char="P">P</button>
+      <button class="kb-key" type="button" data-char="[">[</button>
+      <button class="kb-key" type="button" data-char="]">]</button>
+      <button class="kb-key kb-wide2" type="button" data-char="\">\</button>
+      <span  class="kb-spacer"></span><span class="kb-spacer"></span>
+      <button class="kb-key kb-special kb-mod" type="button">P UP<br>CLR-E</button>
+    </div>
+    <div class="kb-row">
+      <button class="kb-key kb-wide2 kb-mod" type="button">CTRL</button>
+      <button class="kb-key" type="button" data-char="A">A</button>
+      <button class="kb-key" type="button" data-char="S">S</button>
+      <button class="kb-key" type="button" data-char="D">D</button>
+      <button class="kb-key" type="button" data-char="F">F</button>
+      <button class="kb-key" type="button" data-char="G">G</button>
+      <button class="kb-key" type="button" data-char="H">H</button>
+      <button class="kb-key" type="button" data-char="J">J</button>
+      <button class="kb-key" type="button" data-char="K">K</button>
+      <button class="kb-key" type="button" data-char="L">L</button>
+      <button class="kb-key" type="button" data-char=";">;</button>
+      <button class="kb-key" type="button" data-char="'">'</button>
+      <button class="kb-key kb-wide3" type="button" data-action="enter">ENTER</button>
+      <span  class="kb-spacer"></span><span class="kb-spacer"></span>
+      <button class="kb-key kb-special kb-mod" type="button">P DWN<br>OPT</button>
+    </div>
+    <div class="kb-row">
+      <button class="kb-key kb-wide3 kb-mod" type="button">SHIFT</button>
+      <button class="kb-key" type="button" data-char="Z">Z</button>
+      <button class="kb-key" type="button" data-char="X">X</button>
+      <button class="kb-key" type="button" data-char="C">C</button>
+      <button class="kb-key" type="button" data-char="V">V</button>
+      <button class="kb-key" type="button" data-char="B">B</button>
+      <button class="kb-key" type="button" data-char="N">N</button>
+      <button class="kb-key" type="button" data-char="M">M</button>
+      <button class="kb-key" type="button" data-char=",">,</button>
+      <button class="kb-key" type="button" data-char=".">.</button>
+      <button class="kb-key" type="button" data-char="/">/</button>
+      <button class="kb-key kb-wide3 kb-mod" type="button">SHIFT</button>
+      <span  class="kb-spacer"></span>
+      <button class="kb-key" type="button" data-action="up">↑</button>
+      <span  class="kb-spacer"></span>
+    </div>
+    <div class="kb-row">
+      <button class="kb-key kb-wide  kb-mod" type="button">FO/MS</button>
+      <button class="kb-key kb-wide  kb-mod" type="button">ALT</button>
+      <button class="kb-key kb-space"        type="button" data-char=" ">SPACE</button>
+      <button class="kb-key kb-wide  kb-mod" type="button">ALT</button>
+      <button class="kb-key kb-wide  kb-mod" type="button">CTRL</button>
+      <span  class="kb-spacer"></span>
+      <button class="kb-key" type="button" data-action="left">←</button>
+      <button class="kb-key" type="button" data-action="down">↓</button>
+      <button class="kb-key" type="button" data-action="right">→</button>
+    </div>
+  </div><!-- end device-keyboard -->
+
+</div><!-- end mdt-device -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     DISPATCH HUD — visible even when MDT is closed
+     ═══════════════════════════════════════════════════════════ -->
+<div id="dispatch-hud" class="dispatch-hud hidden">
+  <div class="dh-header">
+    <span class="dh-brand">JÜRGENROLA</span>
+    <span class="dh-title">DISPATCH</span>
+  </div>
+  <div class="dh-body">
+    <span class="dh-code" id="dh-code">10-0</span>
+    <span class="dh-msg"  id="dh-msg"></span>
+  </div>
+  <div class="dh-loc" id="dh-loc"></div>
+</div>
+
+<script src="mockData.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

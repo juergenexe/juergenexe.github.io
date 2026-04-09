@@ -1,0 +1,192 @@
+:root {
+  --bg-primary: #080c14;
+  --bg-secondary: #0d1321;
+  --bg-tertiary: #131b2e;
+  --bg-card: #111a2d;
+  --bg-hover: #172035;
+  --bg-active: #1c2844;
+  --bg-input: #0f1728;
+  --border: #1a2540;
+  --border-light: #243352;
+  --border-focus: #3b82f6;
+  --text-primary: #e8edf5;
+  --text-secondary: #94a3b8;
+  --text-muted: #5a6b85;
+  --text-dim: #3d4f6a;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-soft: #1d4ed8;
+  --accent-glow: rgba(59, 130, 246, 0.12);
+  --accent-glow-strong: rgba(59, 130, 246, 0.25);
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.08);
+  --danger-border: rgba(239, 68, 68, 0.25);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.08);
+  --warning-border: rgba(245, 158, 11, 0.25);
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.08);
+  --success-border: rgba(34, 197, 94, 0.25);
+  --purple: #a855f7;
+  --purple-bg: rgba(168, 85, 247, 0.08);
+  --radius: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.1);
+  --font: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* --- OVERALL APP RESET --- */
+.mdt-root {
+  width: 100%;  /* Geändert von 100vw */
+  height: 100%; /* Geändert von 100vh */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: transparent; /* Hintergrund transparent machen */
+}
+
+/* --- TABLET MODE --- */
+.mdt-tablet {
+  /* Hintergrundbild entfernen, da wir den Rahmen im Portfolio haben */
+  background: none !important; 
+}
+
+.mdt-tablet .mdt-container {
+  width: 100%;  /* Geändert von 56vw */
+  height: 100%; /* Geändert von 61vh */
+  background-color: var(--bg-primary);
+  border-radius: 0; /* Ecken glätten */
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+/* --- DUI MODE (render target — fills entire laptop screen) --- */
+.mdt-dui {
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.mdt-dui .mdt-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-primary);
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+/* --- LAYOUT --- */
+.mdt-container > .sidebar {
+  width: 230px;
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.mdt-container > .mdt-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--bg-primary);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Base Inputs */
+input, textarea, select, button {
+  font-family: var(--font);
+  font-size: 12.5px;
+}
+
+input, textarea, select {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-dim);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a6b85' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+button {
+  cursor: pointer;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+button:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-light);
+}
+
+button.primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+
+button.primary:hover {
+  background: var(--accent-hover);
+}
+
+/* Utilities */
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.text-muted { color: var(--text-muted); font-size: 12px; }
+.text-green { color: var(--success); }
+.text-red { color: var(--danger); }
+.text-yellow { color: var(--warning); }
+.text-blue { color: var(--accent); }
+
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 8px; }
+.gap-4 { gap: 16px; }
