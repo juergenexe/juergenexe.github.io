@@ -561,6 +561,7 @@ const AnimatedTimelineExperience = ({ onBack }) => {
 export default function App() {
   const [view, setView] = useState('main'); 
   const [isLoading, setIsLoading] = useState(true);
+  const [mdtMode, setMdtMode] = useState('modern');
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -655,6 +656,7 @@ export default function App() {
              </div>
           </div>
 
+          <MDTSection mode={mdtMode} setMode={setMdtMode} />
           
           <ProjectGraveyard />
           <IdentityProtocol />
